@@ -28,17 +28,29 @@ python3 tsavs_cutter.py --help
 
 ## 使用方法
 
+### 基本的な使い方
+
 ```bash
 python3 tsavs_cutter.py -i INPUT.ts -a TRIM.avs -o OUTPUT.ts
+```
+
+### チャプターファイルとJLSファイルを使用する場合
+
+```bash
+python3 tsavs_cutter.py -i INPUT.ts  -a trim0.avs -c chapter0-0-0-main.txt -j jls0.txt  -o OUTPUT.ts
 ```
 
 ### オプション
 
 - `-i, --input`: 入力TSファイル（必須）
 - `-a, --avs`: AVSファイル（Trim指定を含む）（必須）
+- `-c, --chapter`: チャプターファイル（オプション、正確なタイミング調整用）
+- `-j, --jls`: JLSファイル（オプション、セグメント情報用）
 - `-o, --output`: 出力TSファイル（必須）
 
-## AVSファイルの形式
+## ファイル形式
+
+### AVSファイルの形式
 
 AVSファイルには、AviSynthのTrim()関数を使用してフレーム範囲を指定します：
 
@@ -46,11 +58,47 @@ AVSファイルには、AviSynthのTrim()関数を使用してフレーム範囲
 Trim(193,3188) ++ Trim(4988,22040) ++ Trim(23839,46345) ++ Trim(48145,48743)
 ```
 
-### 形式の詳細
-
+**形式の詳細:**
 - `Trim(start, end)`: フレーム番号で範囲指定（0始まり）
 - `++`: 複数範囲の連結（AviSynth互換）
 - フレーム番号は元TSファイルのビデオフレームインデックスに基づく
+
+### チャプターファイルの形式（オプション）
+
+チャプターファイルは以下の形式で記述します：
+
+```
+CHAPTER01=00:00:00.000
+CHAPTER01NAME=Chapter 1
+CHAPTER02=00:05:30.500
+CHAPTER02NAME=Chapter 2
+CHAPTER03=00:12:45.000
+CHAPTER03NAME=Chapter 3
+```
+
+**用途:**
+- Trim範囲の正確な継続時間を計算
+- チャプター境界に基づいた精密なセグメント抽出
+
+### JLSファイルの形式（オプション）
+
+JLSファイルはセグメント情報を含むテキストファイルです：
+
+```
+0 2995 100 0 0 label:CM
+2996 20048 568 0 0 label:Main
+20049 42555 754 0 0 label:Main
+42556 43150 19 0 0 label:CM
+```
+
+**フォーマット:**
+```
+start_frame end_frame duration_sec field1 field2 label:NAME
+```
+
+**用途:**
+- Trim範囲内のセグメント境界を識別
+- チャプターマッピングの自動生成
 
 ## 動作の仕組み
 

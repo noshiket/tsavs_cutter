@@ -31,7 +31,7 @@ python3 tsavs_cutter.py --help
 ### 基本的な使い方
 
 ```bash
-python3 tsavs_cutter.py -i INPUT.ts -a TRIM.avs -o OUTPUT.ts
+python3 tsavs_cutter.py -i INPUT.ts -a trim0.avs -o OUTPUT.ts
 ```
 
 ### チャプターファイルとJLSファイルを使用する場合
@@ -181,9 +181,9 @@ PCR（Program Clock Reference）も同様にオフセット調整され、27MHz�
 - **音声の途切れ**: セグメント境界で音声が一瞬途切れることがあります
 - **映像の乱れ**: GOP（Group of Pictures）境界が不適切な場合、映像が乱れることがあります
 
-### 映像問題の解決方法
+### 映像音声問題の解決方法
 
-映像の乱れは **[tsreplace](https://github.com/rigaya/tsreplace)** を使用することで解決できます。
+映像音声の乱れは **[tsreplace](https://github.com/noshiket/tsreplace)** を使用することで解決できます。
 
 ## 制限事項
 
